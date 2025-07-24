@@ -12,6 +12,25 @@ public class Teste {
         RestAssured.port = 3000;
         basePath = "/api";
     }
+    //@TODO adicionar verificação do BODY
+    //Verificar como extrair a response;
+    //Verificar como ler filas no MQTT / RabbitMQ
+    @Test(groups = "positivos")
+    public void postSucess(){
+        Localizacao localizacao = Localizacao.builder()
+                .tag_ativo("xpto")
+                .tag_local("local1")
+                .build();
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(localizacao)
+                .when()
+                .post("/localizacao")
+                .then()
+                .statusCode(201);
+
+    }
 
     @Test(groups = "negativos")
     public void getAtivoInexistente(){
@@ -38,23 +57,7 @@ public class Teste {
                 .then()
                 .statusCode(422);
     }
-    //@TODO adicionar verificação do BODY
-    @Test(groups = "positivos")
-    public void postSucess(){
-        Localizacao localizacao = Localizacao.builder()
-                .tag_ativo("xpto")
-                .tag_local("local1")
-                .build();
 
-        given()
-                .contentType(ContentType.JSON)
-                .body(localizacao)
-                .when()
-                .post("/localizacao")
-                .then()
-                .statusCode(201);
-
-    }
 
 
 }
